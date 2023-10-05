@@ -8,12 +8,10 @@ import RecruiterRouter from './Router/RecruiterRouter.js';
 import RecruiterDisplayRouter from './Router/RecruiterDisplayRouter.js';
 import proRouter from './Router/ProRouter.js';
 import adsRouter from './Router/AdsRouter.js';
-// import taRouter from './Router/TaRouter.js';
-// import taRouter2 from './Router/TaRouter2.js';
-// import AooRouter from './Router/AooRouter.js';
+import dotenv from 'dotenv';
+dotenv.config();
 async function init() {
   const app = express();
-  const PORT = process.env.PORT || 4000;
   app.use(bodyParser.json());
   app.use(cors());
   app.use(express.json());
@@ -23,7 +21,7 @@ async function init() {
   app.use('/recruiter-display', RecruiterDisplayRouter);
   app.use('/pro', proRouter);
   app.use('/ads', adsRouter);
-
+  const PORT = process.env.PORT || 4000;
   app.listen(PORT, () => {
     console.log(`listen @ port ${PORT}`);
   });
