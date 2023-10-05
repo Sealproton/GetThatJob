@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Candidate from "./RecruiterComponent/CandidateBox";
-import axios from "axios";
-import { useRecruiterContext } from "../../contexts/recruiterPage1-2";
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import JobDetailBox from "./RecruiterComponent/JobDetailBox";
-import { Spinner, Skeleton } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
-import { RadioCandidate } from "./RecruiterComponent/Recruiter-1-2-Component";
-import backArrow from "../../assets/recruiter-2/arrow-left-icon.svg";
+import React, { useState, useEffect } from 'react';
+import Candidate from './RecruiterComponent/CandidateBox';
+import axios from 'axios';
+import { useRecruiterContext } from '../../contexts/recruiterPage1-2';
+import { useParams } from 'react-router-dom';
+import { useQuery } from 'react-query';
+import JobDetailBox from './RecruiterComponent/JobDetailBox';
+import { Spinner, Skeleton } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
+import { RadioCandidate } from './RecruiterComponent/Recruiter-1-2-Component';
+import backArrow from '../../assets/recruiter-2/arrow-left-icon.svg';
 
 function ShowJobPosting() {
   const param = useParams();
@@ -34,10 +34,10 @@ function ShowJobPosting() {
     loading: loadingR,
     refetch: refetchR,
   } = useQuery({
-    queryKey: ["jobs", data],
+    queryKey: ['jobs', data],
     queryFn: async (data) => {
       const response = await axios.post(
-        "https://gtj-server.onrender.com/recruiter-display/getjob",
+        `${import.meta.env.VITE_SERVER_URL}/recruiter-display/getjob`,
         data.queryKey[1]
       );
       return response.data;
@@ -45,7 +45,7 @@ function ShowJobPosting() {
   });
   async function getCandidate(data) {
     const response = await axios.post(
-      "https://gtj-server.onrender.com/recruiter-display/getcandidate",
+      `${import.meta.env.VITE_SERVER_URL}/recruiter-display/getcandidate`,
       data.queryKey[1]
     );
     return response.data.data;
@@ -57,15 +57,15 @@ function ShowJobPosting() {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["candidates", data],
+    queryKey: ['candidates', data],
     queryFn: async (data) => {
       return getCandidate(data);
     },
   });
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center w-full">
-        <Spinner color="pink.200" size="lg" />
+      <div className='flex flex-col items-center justify-center w-full'>
+        <Spinner color='pink.200' size='lg' />
       </div>
     );
   }
@@ -88,42 +88,42 @@ function ShowJobPosting() {
   };
 
   return (
-    <div className="bg-[#F5F5F6] w-[1565px]">
-    <ShowJobContainer>
-      <Link to={`/`}>
-        <BackButton>
-          <img src={backArrow} />
-          Back
-        </BackButton>
-      </Link>
-      <p className="text-[35px] font-[Montserrat] mt-[21.33]">
-        Show Job Posting
-      </p>
-      {job?.map((item, key) => {
-        return <JobDetailBox key={key} datas={item} refreshData={refetchR} />;
-      })}
-      <RadioCandidate page={setCurrentPage}/>
-      <p className="text-[21px] font-[Montserrat] font-medium mt-[16px]">
-        {candidates?.length} candidates found
-      </p>
-      {currentItems?.map((item, key) => {
-        return (
-          <Candidate
-            key={key}
-            datas={item}
-            refreshData={refetch}
-            jobRefreshData={refetchR}
+    <div className='bg-[#F5F5F6] w-[1565px]'>
+      <ShowJobContainer>
+        <Link to={`/`}>
+          <BackButton>
+            <img src={backArrow} />
+            Back
+          </BackButton>
+        </Link>
+        <p className='text-[35px] font-[Montserrat] mt-[21.33]'>
+          Show Job Posting
+        </p>
+        {job?.map((item, key) => {
+          return <JobDetailBox key={key} datas={item} refreshData={refetchR} />;
+        })}
+        <RadioCandidate page={setCurrentPage} />
+        <p className='text-[21px] font-[Montserrat] font-medium mt-[16px]'>
+          {candidates?.length} candidates found
+        </p>
+        {currentItems?.map((item, key) => {
+          return (
+            <Candidate
+              key={key}
+              datas={item}
+              refreshData={refetch}
+              jobRefreshData={refetchR}
+            />
+          );
+        })}
+        <div className='w-full flex justify-center items-center mt-[30px] mb-[30px]'>
+          <PaginationControls
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
           />
-        );
-      })}
-      <div className="w-full flex justify-center items-center mt-[30px] mb-[30px]">
-      <PaginationControls
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
-      </div>
-    </ShowJobContainer>
+        </div>
+      </ShowJobContainer>
     </div>
   );
 }
@@ -132,14 +132,14 @@ export default ShowJobPosting;
 
 function ShowJobContainer({ children }) {
   return (
-    <div className="w-[1259px] flex flex-col  items-start font-[Inter] ml-[160px] mr-[160px] pt-[32px]">
+    <div className='w-[1259px] flex flex-col  items-start font-[Inter] ml-[160px] mr-[160px] pt-[32px]'>
       {children}
     </div>
   );
 }
 function BackButton({ children }) {
   return (
-    <button className="flex flex-row text-[#616161] text-[15px] font-medium">
+    <button className='flex flex-row text-[#616161] text-[15px] font-medium'>
       {children}
     </button>
   );
@@ -147,14 +147,16 @@ function BackButton({ children }) {
 function PaginationControls({ totalPages, currentPage, handlePageChange }) {
   return (
     <>
-      <div className="flex justify-start">
-        <nav aria-label="Page navigation example">
-          <ul className="inline-flex -space-x-px text-sm">
+      <div className='flex justify-start'>
+        <nav aria-label='Page navigation example'>
+          <ul className='inline-flex -space-x-px text-sm'>
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 ml-0 leading-tight  rounded-l-lg font-[Inter] text-[16px] ${
-                  currentPage === 1 ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100" : "bg-[#f190b1] text-white"
+                  currentPage === 1
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === 1
@@ -169,11 +171,9 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             {Array.from({ length: totalPages }, (_, index) => (
               <li key={index}>
                 <a
-                  href="#"
+                  href='#'
                   className={`flex items-center justify-center px-3 h-10 w-10 leading-tight text-white hover:bg-[#f190b1] font-[Inter] text-[16px] ${
-                    currentPage === index + 1
-                      ? "bg-[#f38fb1]"
-                      : "bg-rose-200 "
+                    currentPage === index + 1 ? 'bg-[#f38fb1]' : 'bg-rose-200 '
                   }`}
                   onClick={() => handlePageChange(index + 1)}
                 >
@@ -183,18 +183,17 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             ))}
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 leading-tight rounded-r-lg   font-[Inter] text-[16px] ${
                   currentPage === totalPages
-                    ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100"
-                    : "bg-[#f190b1] text-white"
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === totalPages
                     ? null
                     : () => handlePageChange(currentPage + 1)
                 }
-                
                 disabled={currentPage === totalPages}
               >
                 Next

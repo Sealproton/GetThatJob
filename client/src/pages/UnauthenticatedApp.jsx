@@ -4,7 +4,7 @@ import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import AdminLoginPage from './AdminLoginPage';
 import '../App.css';
-import HelpButton from "../components/Support-chat/HelpButton"
+// import HelpButton from "../components/Support-chat/HelpButton"
 
 
 function UnauthenticatedApp() {

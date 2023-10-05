@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/Authorization';
 import JobCard from './JobCard';
 import axios from 'axios';
-import { Spinner } from "@chakra-ui/react";
+import { Spinner } from '@chakra-ui/react';
 
 export const Following = () => {
   const [followedJobs, setFollowedJobs] = useState([]);
@@ -15,7 +15,7 @@ export const Following = () => {
     setIsLoading(true);
     try {
       const followedJobFetched = await axios.get(
-        'https://gtj-server.onrender.com/pro/followedJobs',
+        `${import.meta.env.VITE_SERVER_URL}/pro/followedJobs`,
         {
           params: { userID: userID },
         }
@@ -41,7 +41,6 @@ export const Following = () => {
     setCurrentPage(newPage);
   };
 
-
   return (
     <div className='flex flex-col justify-start gap-[21.3334px] w-full min-h-srceen pr-[100px] pl-[100px] pt-[50px] font-[Inter] bg-[#F5F5F6]'>
       <h1 className='font-[Montserrat] font-[400] text-[45.3356px] '>
@@ -49,17 +48,17 @@ export const Following = () => {
       </h1>
 
       <div className='flex flex-col gap-[10.6667px] p-[10.6672] w-full min-h-screen'>
-      {isLoading ? (
-        <div className='flex flex-row justify-center items-center h-[50%]'>
-        <Spinner
-          thickness="4px"
-          speed="2s"
-          emptyColor="gray.200"
-          color="#F48FB1"
-          size="xl"
-        />
-        </div>
-      ) : (
+        {isLoading ? (
+          <div className='flex flex-row justify-center items-center h-[50%]'>
+            <Spinner
+              thickness='4px'
+              speed='2s'
+              emptyColor='gray.200'
+              color='#F48FB1'
+              size='xl'
+            />
+          </div>
+        ) : (
           <p className='font-[Montserrat] font-[500] text-[26.668px]'>
             You are following {followedJobs.length} jobs
           </p>
@@ -70,13 +69,13 @@ export const Following = () => {
             return <JobCard job={job} key={job.job_id} />;
           })}
         </div>
-        <div className="w-full flex justify-center items-center mt-[50px]">
-      <PaginationControls
-        totalPages={totalPages}
-        currentPage={currentPage}
-        handlePageChange={handlePageChange}
-      />
-      </div>
+        <div className='w-full flex justify-center items-center mt-[50px]'>
+          <PaginationControls
+            totalPages={totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );
@@ -84,14 +83,16 @@ export const Following = () => {
 function PaginationControls({ totalPages, currentPage, handlePageChange }) {
   return (
     <>
-      <div className="flex justify-start">
-        <nav aria-label="Page navigation example">
-          <ul className="inline-flex -space-x-px text-sm">
+      <div className='flex justify-start'>
+        <nav aria-label='Page navigation example'>
+          <ul className='inline-flex -space-x-px text-sm'>
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 ml-0 leading-tight  rounded-l-lg font-[Inter] text-[16px] ${
-                  currentPage === 1 ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100" : "bg-[#f190b1] text-white"
+                  currentPage === 1
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === 1
@@ -106,11 +107,9 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             {Array.from({ length: totalPages }, (_, index) => (
               <li key={index}>
                 <a
-                  href="#"
+                  href='#'
                   className={`flex items-center justify-center px-3 h-10 w-10 leading-tight text-white hover:bg-[#f190b1] font-[Inter] text-[16px] ${
-                    currentPage === index + 1
-                      ? "bg-[#f38fb1]"
-                      : "bg-rose-200 "
+                    currentPage === index + 1 ? 'bg-[#f38fb1]' : 'bg-rose-200 '
                   }`}
                   onClick={() => handlePageChange(index + 1)}
                 >
@@ -120,18 +119,17 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             ))}
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 leading-tight rounded-r-lg   font-[Inter] text-[16px] ${
                   currentPage === totalPages
-                    ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100"
-                    : "bg-[#f190b1] text-white"
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === totalPages
                     ? null
                     : () => handlePageChange(currentPage + 1)
                 }
-                
                 disabled={currentPage === totalPages}
               >
                 Next

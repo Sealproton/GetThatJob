@@ -7,7 +7,7 @@ import { ProfessionalProfile } from "../components/Professional/ProfessionalProf
 import { YourApplication } from "../components/Professional/YourApplication";
 import { JobDetail } from "../components/Professional/JobDetail";
 import { ApplicationList } from "../components/Professional/ApplicationList";
-import HelpButton from "../components/Support-chat/HelpButton";
+// import HelpButton from "../components/Support-chat/HelpButton";
 
 export const HomepageProfessional = () => {
   const { state } = useAuth();

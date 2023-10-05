@@ -1,8 +1,7 @@
-import { createContext, useState, useContext } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { createContext, useState, useContext } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/Authorization';
-
 
 const recruiterContext = createContext();
 const { state } = useAuth();
@@ -13,11 +12,11 @@ const ContextProvider = ({ children }) => {
   const getPost = async () => {
     try {
       const data = {
-        job_user_mark: "all",
+        job_user_mark: 'all',
         job_id: 2,
       };
       const response = await axios.post(
-        "https://gtj-server.onrender.com/chaw/getcandidate",
+        `${import.meta.env.VITE_SERVER_URL}/chaw/getcandidate`,
         data
       );
       // console.log(response);

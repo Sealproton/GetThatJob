@@ -42,10 +42,13 @@ export const Otp = ({ props }) => {
     setIsLoading(true);
     try {
       const OTP = Math.floor(Math.random() * 900000 + 100000);
-      const result = await axios.post('https://gtj-server.onrender.com/auth/send-otp', {
-        recipient_email: email,
-        OTP,
-      });
+      const result = await axios.post(
+        `${import.meta.env.VITE_SERVER_URL}/auth/send-otp`,
+        {
+          recipient_email: email,
+          OTP,
+        }
+      );
       if (result.data.message === 'ok') {
         toast({
           title: 'OTP has been sended to yout email.',

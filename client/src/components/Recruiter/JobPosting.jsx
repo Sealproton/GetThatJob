@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import JobDetailBox from "./RecruiterComponent/JobDetailBox";
-import { RadioJobPosting } from "./RecruiterComponent/Recruiter-1-2-Component";
-import { useRecruiterContext } from "../../contexts/recruiterPage1-2";
-import axios from "axios";
-import { useQuery } from "react-query";
-import { Skeleton, Spinner, SkeletonText } from "@chakra-ui/react";
+import React, { useState, useEffect } from 'react';
+import JobDetailBox from './RecruiterComponent/JobDetailBox';
+import { RadioJobPosting } from './RecruiterComponent/Recruiter-1-2-Component';
+import { useRecruiterContext } from '../../contexts/recruiterPage1-2';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import { Skeleton, Spinner, SkeletonText } from '@chakra-ui/react';
 
 function JobPosting(props) {
   const { jobPostingFilterState } = useRecruiterContext();
@@ -26,7 +26,7 @@ function JobPosting(props) {
   }
   async function getJopPosting(data) {
     const response = await axios.post(
-      "https://gtj-server.onrender.com/recruiter-display/get-job-posting",
+      `${import.meta.env.VITE_SERVER_URL}/recruiter-display/get-job-posting`,
       data.queryKey[1]
     );
     return response.data;
@@ -38,7 +38,7 @@ function JobPosting(props) {
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["jobPosts", data],
+    queryKey: ['jobPosts', data],
     queryFn: async (data) => {
       return getJopPosting(data);
     },
@@ -46,8 +46,8 @@ function JobPosting(props) {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center w-full">
-        <Spinner color="pink.200" size="lg" />
+      <div className='flex flex-col items-center justify-center w-full'>
+        <Spinner color='pink.200' size='lg' />
       </div>
     );
   }
@@ -69,13 +69,13 @@ function JobPosting(props) {
     setCurrentPage(newPage);
   };
   return (
-    <div className="bg-[#F5F5F6] w-full">
+    <div className='bg-[#F5F5F6] w-full'>
       <JobContainer>
-        <p className="font-[Montserrat] text-[35px] font-medium">
+        <p className='font-[Montserrat] text-[35px] font-medium'>
           Job Postings
         </p>
         <RadioJobPosting page={setCurrentPage} />
-        <p className="font-[Montserrat] text-[21px] font-medium pt-[21.33px]">
+        <p className='font-[Montserrat] text-[21px] font-medium pt-[21.33px]'>
           {posts?.length} jobs postings found
         </p>
         {currentItems?.map((item, key) => {
@@ -88,7 +88,7 @@ function JobPosting(props) {
             />
           );
         })}
-        <div className="w-full flex justify-center items-center mt-[30px] mb-[30px]">
+        <div className='w-full flex justify-center items-center mt-[30px] mb-[30px]'>
           <PaginationControls
             totalPages={totalPages}
             currentPage={currentPage}
@@ -104,7 +104,7 @@ export default JobPosting;
 
 function JobContainer({ children }) {
   return (
-    <div className="w-[1259px] flex flex-col  items-start font-[Inter] ml-[160px] mr-[160px] pt-[32px]">
+    <div className='w-[1259px] flex flex-col  items-start font-[Inter] ml-[160px] mr-[160px] pt-[32px]'>
       {children}
     </div>
   );
@@ -112,16 +112,16 @@ function JobContainer({ children }) {
 function PaginationControls({ totalPages, currentPage, handlePageChange }) {
   return (
     <>
-      <div className="flex justify-start">
-        <nav aria-label="Page navigation example">
-          <ul className="inline-flex -space-x-px text-sm">
+      <div className='flex justify-start'>
+        <nav aria-label='Page navigation example'>
+          <ul className='inline-flex -space-x-px text-sm'>
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 ml-0 leading-tight  rounded-l-lg font-[Inter] text-[16px] ${
                   currentPage === 1
-                    ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100"
-                    : "bg-[#f190b1] text-white"
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === 1
@@ -136,9 +136,9 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             {Array.from({ length: totalPages }, (_, index) => (
               <li key={index}>
                 <a
-                  href="#"
+                  href='#'
                   className={`flex items-center justify-center px-3 h-10 w-10 leading-tight text-white hover:bg-[#f190b1] font-[Inter] text-[16px] ${
-                    currentPage === index + 1 ? "bg-[#f38fb1]" : "bg-rose-200 "
+                    currentPage === index + 1 ? 'bg-[#f38fb1]' : 'bg-rose-200 '
                   }`}
                   onClick={() => handlePageChange(index + 1)}
                 >
@@ -148,11 +148,11 @@ function PaginationControls({ totalPages, currentPage, handlePageChange }) {
             ))}
             <li>
               <a
-                href="#"
+                href='#'
                 className={`flex items-center justify-center px-3 h-10 w-25 leading-tight rounded-r-lg   font-[Inter] text-[16px] ${
                   currentPage === totalPages
-                    ? "cursor-not-allowed bg-ggrey-200 text-ggrey-100"
-                    : "bg-[#f190b1] text-white"
+                    ? 'cursor-not-allowed bg-ggrey-200 text-ggrey-100'
+                    : 'bg-[#f190b1] text-white'
                 }`}
                 onClick={
                   currentPage === totalPages

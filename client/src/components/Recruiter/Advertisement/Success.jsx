@@ -14,7 +14,7 @@ function Success() {
         'job_id'
       );
       const paymentStatus = await axios(
-        `https://gtj-server.onrender.com/ads/success/jobs/${urlParams}`
+        `${import.meta.env.VITE_SERVER_URL}/ads/success/jobs/${urlParams}`
       );
       setTransaction(paymentStatus.data.data);
       setIsloading(false);

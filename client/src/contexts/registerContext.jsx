@@ -1,9 +1,9 @@
-import { createContext, useState, useContext } from "react";
-import axios from "axios";
-import { createClient } from "@supabase/supabase-js";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
-import { cssVar } from "@chakra-ui/theme-tools";
+import { createContext, useState, useContext } from 'react';
+import axios from 'axios';
+import { createClient } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@chakra-ui/react';
+import { cssVar } from '@chakra-ui/theme-tools';
 
 const UserContext = createContext();
 
@@ -12,42 +12,42 @@ const ContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const toast = useToast();
   const customTextStyle = {
-    fontFamily: "Inter",
-    fontSize: "10px",
-    fontStyle: "normal",
+    fontFamily: 'Inter',
+    fontSize: '10px',
+    fontStyle: 'normal',
     fontWeight: 400,
-    lineHeight: "normal",
-    letterSpacing: "1.5px",
-    textTransform: "uppercase",
+    lineHeight: 'normal',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
     // borderColor:"#F48FB1",
     // focusBorderColor:"#F48FB1"
   };
   const profFormStyle = {
-    fontFamily: "Inter",
-    fontSize: "13px",
-    fontStyle: "normal",
+    fontFamily: 'Inter',
+    fontSize: '13px',
+    fontStyle: 'normal',
     fontWeight: 400,
-    lineHeight: "normal",
-    letterSpacing: "1.5px",
-    textTransform: "uppercase",
-    color: "#373737",
+    lineHeight: 'normal',
+    letterSpacing: '1.5px',
+    textTransform: 'uppercase',
+    color: '#373737',
     // borderColor:"#F48FB1",
     // focusBorderColor:"#F48FB1"
   };
 
   // register page context
-  const [userType, setUserType] = useState("PROFESSIONAL");
+  const [userType, setUserType] = useState('PROFESSIONAL');
   const [registerPage, setRegisterPage] = useState(1);
   const [recruiterRegisterPage, setRecruiterRegisterPage] = useState(1);
 
   // professional context
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [linkedinUrl, setLinkedinUrl] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [birthDate, setBirthDate] = useState('');
+  const [linkedinUrl, setLinkedinUrl] = useState('');
   const [title, setTitle] = useState(null);
   const [professionalExperience, setProfessionalExperience] = useState(null);
   const [educationalInfo, setEducationalInfo] = useState(null);
@@ -55,14 +55,14 @@ const ContextProvider = ({ children }) => {
 
   // recruiter context
 
-  const [companyName, setCompanyName] = useState("");
-  const [recruiterEmail, setRecruiterEmail] = useState("");
-  const [recruiterPassword, setRecruiterPassword] = useState("");
+  const [companyName, setCompanyName] = useState('');
+  const [recruiterEmail, setRecruiterEmail] = useState('');
+  const [recruiterPassword, setRecruiterPassword] = useState('');
   const [recruiterpasswordConfirmation, setRecruiterPasswordConfirmation] =
-    useState("");
-  const [companyWebsite, setCompanyWebsite] = useState("");
-  const [aboutCompany, setAboutCompany] = useState("");
-  const [logo, setLogo] = useState("");
+    useState('');
+  const [companyWebsite, setCompanyWebsite] = useState('');
+  const [aboutCompany, setAboutCompany] = useState('');
+  const [logo, setLogo] = useState('');
 
   // handle submit
 
@@ -73,61 +73,61 @@ const ContextProvider = ({ children }) => {
     let error; // Declare error variable here
 
     try {
-    if (cv) {
-      if (userType === "PROFESSIONAL") {
-        const { data, error: professionalError } = await supabase.storage
-          .from("files")
-          .upload(`professionalcv/${Date.now()}${cv.name}`, cv, {
-            cacheControl: "3600",
-            upsert: false,
+      if (cv) {
+        if (userType === 'PROFESSIONAL') {
+          const { data, error: professionalError } = await supabase.storage
+            .from('files')
+            .upload(`professionalcv/${Date.now()}${cv.name}`, cv, {
+              cacheControl: '3600',
+              upsert: false,
+            });
+
+          if (professionalError) {
+            error = professionalError; // Assign error if professionalError is defined
+          }
+
+          const professionalData = {
+            email: email,
+            password: password,
+            user_type: userType,
+            username: name,
+            phone: phone,
+            birthdate: birthDate,
+            linkedin: linkedinUrl,
+            title: title,
+            experience: professionalExperience,
+            education: educationalInfo,
+            cv: data.path,
+          };
+          // console.log(professionalData);
+
+          const response = await axios.post(
+            `${import.meta.env.VITE_SERVER_URL}/users/register-professional`,
+            professionalData
+          );
+
+          // console.log(response.data);
+
+          toast({
+            title: 'Account created.',
+            description: "We've created your account for you.",
+            status: 'success',
+            duration: 3000,
+            isClosable: true,
           });
 
-        if (professionalError) {
-          error = professionalError; // Assign error if professionalError is defined
+          // Add a delay before navigating to the login page
+          setTimeout(() => {
+            navigate('/login');
+          }, 3500); // 3500 milliseconds = 3.5 seconds
         }
-
-        const professionalData = {
-          email: email,
-          password: password,
-          user_type: userType,
-          username: name,
-          phone: phone,
-          birthdate: birthDate,
-          linkedin: linkedinUrl,
-          title: title,
-          experience: professionalExperience,
-          education: educationalInfo,
-          cv: data.path,
-        };
-        // console.log(professionalData);
-
-        const response = await axios.post(
-          "https://gtj-server.onrender.com/users/register-professional",
-          professionalData
-        );
-
-        // console.log(response.data);
-
-        toast({
-          title: "Account created.",
-          description: "We've created your account for you.",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-
-        // Add a delay before navigating to the login page
-        setTimeout(() => {
-          navigate("/login");
-        }, 3500); // 3500 milliseconds = 3.5 seconds
       }
-    }
 
-      if (userType === "RECRUITER") {
+      if (userType === 'RECRUITER') {
         const { data, error: recruiterError } = await supabase.storage
-          .from("files")
+          .from('files')
           .upload(`companyicon/${Date.now()}${logo.name}`, logo, {
-            cacheControl: "3600",
+            cacheControl: '3600',
             upsert: false,
           });
         if (recruiterError) {
@@ -135,7 +135,7 @@ const ContextProvider = ({ children }) => {
         }
         console.log(error); // Log error here
 
-        const urlPath = supabase.storage.from("files").getPublicUrl(data.path);
+        const urlPath = supabase.storage.from('files').getPublicUrl(data.path);
 
         const recruiterData = {
           email: recruiterEmail,
@@ -150,27 +150,27 @@ const ContextProvider = ({ children }) => {
         // console.log(recruiterData);
 
         const response = await axios.post(
-          "https://gtj-server.onrender.com/users/register-recruiter",
+          `${import.meta.env.VITE_SERVER_URL}/users/register-recruiter`,
           recruiterData
         );
 
-        console.log("Registration successful");
+        console.log('Registration successful');
 
         toast({
-          title: "Account created.",
+          title: 'Account created.',
           description: "We've created your account for you.",
-          status: "success",
+          status: 'success',
           duration: 3000,
           isClosable: true,
         });
 
         // Add a delay before navigating to the login page
         setTimeout(() => {
-          navigate("/login");
+          navigate('/login');
         }, 3500); // 3500 milliseconds = 3.5 seconds
       }
     } catch (error) {
-      console.log("Registration error", error);
+      console.log('Registration error', error);
     }
   };
   return (
