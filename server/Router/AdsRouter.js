@@ -4,7 +4,7 @@ import { protect } from '../middlewares/protect.js';
 import dotenv from 'dotenv';
 import stripe from 'stripe';
 dotenv.config();
-const YOUR_DOMAIN = 'http://localhost:5173';
+const YOUR_DOMAIN = 'https://getthatjob.onrender.com';
 
 // Initialize Stripe with your secret key
 const stripeSecretKey = process.env.SECRET_KEY_STRIPE;
